@@ -1,0 +1,13 @@
+# OS
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Misc
+*.log
+_v*check.js
+synctest.txt

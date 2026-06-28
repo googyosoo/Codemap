@@ -449,7 +449,20 @@ const CONCEPTS = [
   ],
   analogy:"이어폰 줄과 같습니다. 줄이 서로 엉키면(강한 결합) 하나 풀기도 힘듭니다.",
   apply:"한 곳을 고쳤는데 엉뚱한 데가 자꾸 깨지면 결합도가 높다는 신호입니다.",
-  images:[{src:"결합도 쉽게 보기1.webp",cap:"결합도란"},{src:"결합도 쉽게 보기2.webp",cap:"강한 결합"},{src:"결합도 쉽게 보기3.webp",cap:"약한 결합"}]
+  images:[{src:"결합도 쉽게 보기1.webp",cap:"결합도란"},{src:"결합도 쉽게 보기2.webp",cap:"강한 결합"},{src:"결합도 쉽게 보기3.webp",cap:"약한 결합"},{src:"결합도가 높을 때 생기는 문제.webp",cap:"결합도가 높을 때 생기는 4가지 문제"}]
+},
+{
+  id:"cohesion", cat:"design", level:"심화", title:"응집도",
+  key:"관련 있는 것끼리 모으기",
+  summary:"응집도는 한 모듈(파일·함수)이 '한 가지 일'에 얼마나 집중되어 있는지를 뜻합니다. 관련된 코드끼리 모여 있을수록 응집도가 높고 좋은 구조입니다.",
+  points:[
+    "높은 응집도: 한 곳의 코드가 하나의 목적에 집중 → 이해·수정이 쉬움.",
+    "AI에게 '그냥 정리해줘'보다 '역할별로 모아줘'라고 요청하면 응집도가 올라갑니다.",
+    "좋은 설계의 방향: 응집도는 높게, 결합도는 낮게.",
+  ],
+  analogy:"서랍 정리와 같습니다. '방 정리해줘'보다 '문구류는 한 서랍에, 충전기는 한 박스에 모아줘'가 나중에 찾기 쉽습니다.",
+  apply:"AI에게 '화면 표시·입력 처리·데이터 요청 역할을 구분해서 모아줘'처럼 기준을 주어 요청하세요.",
+  images:[{src:"응집도를 높이는 요청법.webp",cap:"응집도를 높이는 요청법 (역할별로 모으기)"}]
 },
 {
   id:"dependency", cat:"design", level:"심화", title:"의존성과 방향",
@@ -811,7 +824,7 @@ const PREREQ = {
   uiux:["frontback"], uiterms:["uiux"], wireframe:["uiux"], component:["htmlcssjs"],
   state:["component"], event:["htmlcssjs"], form:["event"], loading:["state","http"],
   blueprint:["devterms"], arch:["blueprint"], coupling:["arch"], dependency:["arch"],
-  responsibility:["coupling"], refactor:["responsibility"], libframework:["package"],
+  cohesion:["coupling"], responsibility:["coupling"], refactor:["responsibility","cohesion"], libframework:["package"],
   terminal:["folder"], git:["terminal"], commit:["git"], package:["terminal"],
   debug:["devterms"], test:["debug"], errors:["debug"],
   viberequest:["lang"], claudecode:["terminal","viberequest"], claudediff:["claudecode"],
@@ -822,6 +835,15 @@ const PREREQ = {
 
 /* ===== 비교·분석 표 ===== */
 const COMPARES = [
+  {
+    title:"응집도 vs 결합도", a:"응집도(Cohesion)", b:"결합도(Coupling)",
+    rows:[
+      ["뜻","한 곳이 한 가지 일에 집중","모듈끼리 서로 의존하는 정도"],
+      ["좋은 방향","높게 ↑","낮게 ↓"],
+      ["비유","서랍별 정리","안 엉킨 이어폰 줄"],
+      ["효과","이해·수정이 쉬움","수정해도 다른 곳이 덜 깨짐"],
+    ]
+  },
   {
     title:"프론트엔드 vs 백엔드", a:"프론트엔드", b:"백엔드",
     rows:[
@@ -923,7 +945,7 @@ const ROADMAP = [
     intro:"안전하고, 잘 짜여지고, 무너지지 않는 코드를 향해. AI도 깊이 이해합니다.",
     steps:[
       {title:"안전하게 만들기", desc:"로그인·인증/권한·쿠키·보안·유효성·환경변수.", ids:["login","authz","cookie","security","validation","env"]},
-      {title:"좋은 구조로 짓기", desc:"설계도·아키텍처·결합도·의존성·책임분리·리팩토링.", ids:["blueprint","arch","coupling","dependency","responsibility","refactor","libframework"]},
+      {title:"좋은 구조로 짓기", desc:"설계도·아키텍처·결합도·응집도·의존성·책임분리·리팩토링.", ids:["blueprint","arch","coupling","cohesion","dependency","responsibility","refactor","libframework"]},
       {title:"품질 지키기", desc:"테스트·디버깅·자주 만나는 에러로 안정성을 확보.", ids:["test","debug","errors"]},
       {title:"AI 깊이 이해하기", desc:"토큰·컨텍스트·MCP·RAG·파인튜닝·모델/양자화·에이전트.", ids:["token","contextmgmt","mcp","rag","finetune","modelperf","quant","agent","opensourceai","djangoreact"]},
     ]
@@ -1096,6 +1118,12 @@ const SNIPPETS = [
 
 /* ===== 퀴즈 ===== */
 const QUIZ = [
+  {q:"좋은 설계의 기본 방향으로 옳은 것은?",
+   opts:["응집도는 높게, 결합도는 낮게","응집도는 낮게, 결합도는 높게","둘 다 높게","둘 다 낮게"],a:0,
+   exp:"관련된 코드는 모으고(높은 응집도), 모듈 간 의존은 줄이는(낮은 결합도) 것이 좋은 설계입니다."},
+  {q:"AI에게 코드 정리를 시킬 때 응집도를 높이는 좋은 요청은?",
+   opts:["역할별로 관련 코드끼리 모아줘","그냥 코드 정리해줘","파일 수를 줄여줘","주석을 더 많이 달아줘"],a:0,
+   exp:"'역할별로 모아줘'처럼 기준을 주면 관련 코드가 모여 응집도가 올라갑니다."},
   {q:"사용자가 보는 화면을 담당하는 영역은?",
    opts:["프론트엔드","백엔드","데이터베이스","터미널"],a:0,
    exp:"프론트엔드는 화면(보이는 곳), 백엔드는 뒤에서 처리하는 서버입니다."},
