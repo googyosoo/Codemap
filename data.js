@@ -439,6 +439,34 @@ const CONCEPTS = [
   images:[{src:"아키텍처 쉽게 보기 1.webp",cap:"아키텍처란"},{src:"아키텍처 쉽게 보기 2.webp",cap:"계층 구조"},{src:"아키텍처 쉽게 보기 3.webp",cap:"좋은 구조"}]
 },
 {
+  id:"backendarch", cat:"design", level:"심화", title:"백엔드 아키텍처",
+  key:"서버 코드를 역할로 나누기",
+  summary:"백엔드 아키텍처는 서버 코드를 '요청 받기 · 규칙 처리 · 데이터 다루기 · 결과 돌려주기' 역할로 나눠 정리한 전체 구조입니다.",
+  points:[
+    "요청 받기: 화면이 보낸 정보를 서버가 받습니다.",
+    "규칙 처리: 무엇을 확인하고 실행할지 판단합니다.",
+    "데이터 다루기: 필요한 정보를 찾고 저장하도록 연결합니다.",
+    "핵심은 '많이 나누기'가 아니라 서로 다른 책임이 섞이지 않게 정리하는 것.",
+  ],
+  analogy:"회사의 접수 데스크·업무 공간·서류 보관실처럼, 서버도 접수·처리·저장 공간을 나누면 관리가 쉬워집니다.",
+  apply:"AI에게 '요청 받는 코드·처리하는 코드·데이터 코드를 나눠서 만들어줘'처럼 역할로 구분해 요청하세요.",
+  images:[{src:"백엔드 아키텍처 1.jpg",cap:"백엔드 아키텍처 쉽게 보기"},{src:"백엔드 아키텍처 2.jpg",cap:"역할 나누기 상세"}]
+},
+{
+  id:"cleanarch", cat:"design", level:"심화", title:"클린 아키텍처",
+  key:"핵심 규칙을 안쪽에 지키기",
+  summary:"클린 아키텍처는 서비스의 중요한 업무 규칙을 가장 안전한 '안쪽'에 두고, 화면·DB·프레임워크 같은 바깥 기술과 분리해 오래 지키는 설계 방식입니다.",
+  points:[
+    "가장 안쪽: 서비스의 핵심 규칙(무엇을 해야 하는가).",
+    "바깥: 화면·DB·프레임워크·외부 API 등 바뀌기 쉬운 기술.",
+    "기술이 바뀌어도 핵심 규칙은 흔들리지 않게 분리합니다.",
+    "변경이 잦거나 오래 운영할 서비스에서 특히 도움이 됩니다.",
+  ],
+  analogy:"가게의 핵심 레시피를 주방 기계에 맡기지 않는 것과 같습니다. 오븐·결제기가 바뀌어도 레시피(핵심 규칙)는 그대로 유지됩니다.",
+  apply:"핵심 업무 규칙을 특정 DB·프레임워크 코드와 섞지 말고 별도로 분리해 두세요.",
+  images:[{src:"클린 아키텍처 1.jpg",cap:"클린 아키텍처 쉽게 보기"},{src:"클린 아키텍처 2.jpg",cap:"핵심과 기술 분리"},{src:"클린 아키텍처 3.jpg",cap:"안쪽·바깥 계층"}]
+},
+{
   id:"coupling", cat:"design", level:"심화", title:"결합도",
   key:"얼마나 얽혀 있나",
   summary:"결합도는 코드 조각들이 서로 얼마나 의존하는지를 뜻합니다. 약하게 묶일수록 고치기 쉽습니다.",
@@ -823,7 +851,7 @@ const PREREQ = {
   security:["authz","validation"], env:["security"],
   uiux:["frontback"], uiterms:["uiux"], wireframe:["uiux"], component:["htmlcssjs"],
   state:["component"], event:["htmlcssjs"], form:["event"], loading:["state","http"],
-  blueprint:["devterms"], arch:["blueprint"], coupling:["arch"], dependency:["arch"],
+  blueprint:["devterms"], arch:["blueprint"], backendarch:["arch","serverclient"], cleanarch:["arch","dependency"], coupling:["arch"], dependency:["arch"],
   cohesion:["coupling"], responsibility:["coupling"], refactor:["responsibility","cohesion"], libframework:["package"],
   terminal:["folder"], git:["terminal"], commit:["git"], package:["terminal"],
   debug:["devterms"], test:["debug"], errors:["debug"],
@@ -945,7 +973,7 @@ const ROADMAP = [
     intro:"안전하고, 잘 짜여지고, 무너지지 않는 코드를 향해. AI도 깊이 이해합니다.",
     steps:[
       {title:"안전하게 만들기", desc:"로그인·인증/권한·쿠키·보안·유효성·환경변수.", ids:["login","authz","cookie","security","validation","env"]},
-      {title:"좋은 구조로 짓기", desc:"설계도·아키텍처·결합도·응집도·의존성·책임분리·리팩토링.", ids:["blueprint","arch","coupling","cohesion","dependency","responsibility","refactor","libframework"]},
+      {title:"좋은 구조로 짓기", desc:"설계도·아키텍처(백엔드·클린)·결합도·응집도·의존성·책임분리·리팩토링.", ids:["blueprint","arch","backendarch","cleanarch","coupling","cohesion","dependency","responsibility","refactor","libframework"]},
       {title:"품질 지키기", desc:"테스트·디버깅·자주 만나는 에러로 안정성을 확보.", ids:["test","debug","errors"]},
       {title:"AI 깊이 이해하기", desc:"토큰·컨텍스트·MCP·RAG·파인튜닝·모델/양자화·에이전트.", ids:["token","contextmgmt","mcp","rag","finetune","modelperf","quant","agent","opensourceai","djangoreact"]},
     ]
@@ -1121,6 +1149,12 @@ const QUIZ = [
   {q:"좋은 설계의 기본 방향으로 옳은 것은?",
    opts:["응집도는 높게, 결합도는 낮게","응집도는 낮게, 결합도는 높게","둘 다 높게","둘 다 낮게"],a:0,
    exp:"관련된 코드는 모으고(높은 응집도), 모듈 간 의존은 줄이는(낮은 결합도) 것이 좋은 설계입니다."},
+  {q:"클린 아키텍처의 핵심 아이디어는?",
+   opts:["핵심 업무 규칙을 바깥 기술과 분리해 지킨다","파일 수를 최대한 늘린다","화면을 화려하게 꾸민다","모든 코드를 한 파일에 모은다"],a:0,
+   exp:"클린 아키텍처는 중요한 업무 규칙을 DB·프레임워크 같은 바깥 기술과 분리해 오래 지키는 설계입니다."},
+  {q:"백엔드 아키텍처에서 코드를 나누는 기준으로 알맞은 것은?",
+   opts:["요청 받기·규칙 처리·데이터 다루기 등 역할","파일 이름의 길이","작성한 날짜","글자 색깔"],a:0,
+   exp:"백엔드는 요청·처리·데이터 등 역할이 섞이지 않게 나누는 것이 핵심입니다."},
   {q:"AI에게 코드 정리를 시킬 때 응집도를 높이는 좋은 요청은?",
    opts:["역할별로 관련 코드끼리 모아줘","그냥 코드 정리해줘","파일 수를 줄여줘","주석을 더 많이 달아줘"],a:0,
    exp:"'역할별로 모아줘'처럼 기준을 주면 관련 코드가 모여 응집도가 올라갑니다."},
